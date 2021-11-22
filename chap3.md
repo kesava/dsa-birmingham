@@ -33,3 +33,11 @@ for(let i of linkedList) {
   console.log({ i })
 }
 ```
+The output would be as follows
+```
+{ spreadableList: [ 10, 8, 5, 3 ] }
+{ i: 10 }
+{ i: 8 }
+{ i: 5 }
+{ i: 3 }
+```
