@@ -1,4 +1,4 @@
-```
+```js
 //// 6.3 Binary tree
 const EmptyTree = null;
 const MakeTree = (v, l, r) => ({
