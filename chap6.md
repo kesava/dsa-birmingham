@@ -125,6 +125,19 @@ const randomNumbers = (n, max=100) => ({
 
 const buildTree = list => list.reduce((acc, element) => insert(element, acc), EmptyTree);
 
+const findBinaryTree = (tree, element) => {
+  if (isEmpty(tree)) return false;
+  let {v, l, r} = tree;
+  switch(true) {
+    case (element === v): return true;
+    case (element < v): return findBinaryTree(l, element);
+    case (element > v): return findBinaryTree(r, element);
+  }
+}
+const find = (list, element) => findBinaryTree(buildTree(list), element);
+find([3,1,7,9,2,8], 3); // true
+find([3,1,7,9,2,8], 6); // false
+
 const binsort = arr => inorder(buildTree(arr));
 
 binsort([...randomNumbers(100, 10000)])
