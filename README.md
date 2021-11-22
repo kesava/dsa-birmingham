@@ -1,3 +1,3 @@
  # Code samples and exercises from DSA - Univ of Birmingham
  
- ** [Chap3.md](Chapter 30
+ ** [Chap3.md](Chapter 30)
