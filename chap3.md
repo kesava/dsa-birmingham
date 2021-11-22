@@ -32,6 +32,25 @@ console.log({ spreadableList });
 for(let i of linkedList) {
   console.log({ i })
 }
+
+const first = input => {
+  let { element, list} = input;
+  return element;
+};
+
+const rest = input => {
+  let { element, list} = input;
+  return list;
+};
+
+const isEmpty = input => {
+  if (input === null) return true;
+  return false;
+}
+
+first(linkedList)
+rest(linkedList)
+isEmpty(EmptyList)
 ```
 The output would be as follows
 ```
@@ -40,4 +59,19 @@ The output would be as follows
 { i: 8 }
 { i: 5 }
 { i: 3 }
+10
+{
+  element: 8,
+  list: {
+    element: 5,
+    list: {
+      element: 3,
+      list: null,
+      [Symbol(Symbol.iterator)]: ƒ [Symbol.iterator]()
+    },
+    [Symbol(Symbol.iterator)]: ƒ [Symbol.iterator]()
+  },
+  [Symbol(Symbol.iterator)]: ƒ [Symbol.iterator]()
+}
+true
 ```
