@@ -1,9 +1,8 @@
 ```js
-//// 6.3 Binary tree
-//// 6.3 Binary tree
+//// 6.3 Binary/Binary Search tree
 const EmptyTree = null;
 const MakeTree = (v, l, r) => ({
-  v, l, r 
+  v, l, r
 });
 const root = tree => {
   let {v, l, r} = tree;
@@ -78,40 +77,56 @@ const rotate = t => {
   return t;
 }
 
+const flatten = arr => {
+  let output = [];
+  // if (!arr) return [];
+  arr.forEach(element => {
+    if (Array.isArray(element)) {
+      output = output.concat(flatten(element));
+    } else if (element !== null) {
+      output.push(element);
+    }
+  });
+  return output;
+}
+
+const isNull = t => t === null
+
+const inorder = t => {
+  if (isEmpty(t)) return t;
+  let {v, l, r} = t;
+  switch(true) {
+    case (!isNull(l) && !isNull(r)):
+      return flatten([inorder(l), v, inorder(r)]);
+    case (!isNull(l)):
+      return flatten([inorder(l), v]);
+    case (!isNull(r)):
+      return flatten([v, inorder(r)]);
+    default:
+      return v;
+  } 
+}
+
+const randomNumbers = (n, max=100) => ({
+    [Symbol.iterator]() {
+      let i = 0;
+      return {
+        next() {
+        if (i < n) {
+          i++;
+          return { value: Math.floor(Math.random() * max), done: false }
+        } else {
+          return { done: true }
+        }
+      }
+    }
+    }
+});
+
 const buildTree = list => list.reduce((acc, element) => insert(element, acc), EmptyTree);
-const t1 = buildTree([2,4,6,7,9,33, 3, 5, 333, 98, 43, 21]);
-t1
-size(t1) // 12
 
+const binsort = arr => inorder(buildTree(arr));
 
-// {
-//   v: 7,
-//   l: {
-//     v: 4,
-//     l: {
-//       v: 2,
-//       l: null,
-//       r: { v: 3, l: null, r: null }
-//     },
-//     r: {
-//       v: 6,
-//       l: { v: 5, l: null, r: null },
-//       r: null
-//     }
-//   },
-//   r: {
-//     v: 33,
-//     l: {
-//       v: 9,
-//       l: null,
-//       r: { v: 21, l: null, r: null }
-//     },
-//     r: {
-//       v: 98,
-//       l: { v: 43, l: null, r: null },
-//       r: { v: 333, l: null, r: null }
-//     }
-//   }
-// }
-
+binsort([...randomNumbers(100, 10000)])
+// [ 101, 303, 389, 437, 813, 908, 909, 958, 1047, 1096, 1293, 1306, 1400, 1535, 2013, 2049, 2091, 2187, 2220, 2433, 2462, 2495, 2567, 2573, 2587, 2594, 2780, 2898, 3026, 3060, 3082, 3425, 3529, 3774, 3805, 4169, 4209, 4391, 4891, 4939, 5475, 5623, 5635, 5653, 5670, 5972, 5991, 5993, 6139, 6538, 6549, 6551, 6796, 6810, 6907, 7008, 7019, 7048, 7116, 7144, 7219, 7328, 7353, 7362, 7397, 7428, 7542, 7594, 7609, 7640, 7654, 7713, 7864, 7885, 7897, 8025, 8034, 8215, 8221, 8569, 8776, 8809, 8863, 8867, 9031, 9081, 9087, 9155, 9165, 9253, 9318, 9394, 9603, 9615, 9645, 9743, 9753, 9834, 9915, 9968 ]
 ```
