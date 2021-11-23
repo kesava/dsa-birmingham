@@ -89,6 +89,19 @@ const removeSmallestNode = t => {
   }
 }
 
+const floor = (t, x) => {
+  if (isEmpty(t)) return EmptyTree;
+  let {v, l, r} = t;
+  console.log({v,l,r})
+  switch(true) {
+    case (x === v): return x;
+    case (x < v): return floor(l, x);
+    case (x > v): 
+      let fl = floor(r, x);
+      return (x >= fl) ? fl : x
+  }
+}
+
 const height = t => {
   if (isEmpty(t)) {
     return 0;
@@ -174,6 +187,10 @@ const randomNumbers = (n, max=100) => ({
     }
 });
 
+const str = 'hello world and some more and then even more'
+
+
+
 const buildTree = list => list.reduce((acc, element) => insert(element, acc), EmptyTree);
 const t2 = buildTree([3,2,4,9])
 t2
@@ -182,6 +199,7 @@ t2
 //   l: { v: 2, l: null, r: null },
 //   r: { v: 4, l: null, r: { v: 9, l: null, r: null } }
 // }
+
 
 smallestNode(t2) // 2
 
@@ -204,7 +222,7 @@ const findBinaryTree = (tree, element) => {
 const find = (list, element) => findBinaryTree(buildTree(list), element);
 find([3,1,7,9,2,8], 3); // true
 find([3,1,7,9,2,8], 6); // false
-
+floor(buildTree([3,1,7,9,2,8]), 4);
 const r3 = [...randomNumbers(100, 10000)];
 const t3 = del(buildTree(r3), r3[1]);
 r3.length // 100
