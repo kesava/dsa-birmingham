@@ -282,13 +282,7 @@ const isNodeType = (n, type)  => {
 const make2nodeLeaf = x => make2Node(x, EmptyTree, EmptyTree);
 const make3nodeLeaf = (x, y) => make3Node(x, y, EmptyTree, EmptyTree, EmptyTree);
 
-const insert = (t, v) => {
-  if (isEmpty(t)) return make2nodeLeaf(v);
-  if (is2nodeleaf(t)) {
-    let {x} = t;
-    return x < v ? make3nodeLeaf(x, v) : make3nodeLeaf(v, x);
-  }
-  if (is3nodeleaf(t)) {
+const insertInto3nodeleaf = (t, v) => {
     let {x, y} = t;
     switch (true) {
       case ((x <= v) && (v <= y)): return make2Node(v, make2nodeLeaf(x), make2nodeLeaf(y));
@@ -298,8 +292,9 @@ const insert = (t, v) => {
       case ((y <= x) && (x <= v)): return make2Node(x, make2nodeLeaf(y), make2nodeLeaf(v)); 
       case ((x <= y) && (y <= v)): return make2Node(y, make2nodeLeaf(x), make2nodeLeaf(v)); 
     }
-  }
-  if (isNodeType(t, '222')) {
+}
+
+const insertInto222 = (t, v) => {
     let {x,l,r} = t;
     if (v < x) {
       if (v <= l.x) return make2Node(x, make3Node(v, l.x), r);
@@ -309,7 +304,16 @@ const insert = (t, v) => {
       if (v <= r.x) return make2Node(x, l, make3Node(v, r.x));
       if (v > r.x) return make2Node(x, l, make3Node(r.x, v));
     }
+}
+
+const insert = (t, v) => {
+  if (isEmpty(t)) return make2nodeLeaf(v);
+  if (is2nodeleaf(t)) {
+    let {x} = t;
+    return x < v ? make3nodeLeaf(x, v) : make3nodeLeaf(v, x);
   }
+  if (is3nodeleaf(t)) return insertInto3nodeleaf(t, v);
+  if (isNodeType(t, '222')) return insertInto222(t, v);
   if (isNodeType(t, '223')) {
     let {x, l, r} = t;
     if (v < x) {
@@ -352,16 +356,46 @@ const insert = (t, v) => {
     if (v > y) return make3Node(x, y, l, m, (v > r.x) ? make3nodeLeaf(r.x, v) : make3nodeLeaf(v, r.x) );
     return make3Node(x,y,l, (v <= m.x) ? make3nodeLeaf(v,m.x) : make3nodeLeaf(m.x, v), r);
   }
+  if (isNodeType(t, '3232')) {
+    let {x,y,l,m,r} = t;
+    if (v <= x) return make3Node(x, y, (v < l.x) ? make3nodeLeaf(v, l.x) : make3nodeLeaf(l.x, v), m, r);
+    if (v >= y) return make3Node(x, y, l, m, (v > r.x) ? make3nodeLeaf(r.x, v) : make3nodeLeaf(v, r.x) );
+    if (v <= m.x) return make3Node(x,m.y,l, make3nodeLeaf(v,m.x), make3nodeLeaf(y, r.x));
+    if (v >= m.y) return make3Node(x,v,l, m, make3nodeLeaf(y, r.x));
+    return make3Node(x,m.y,l, make3nodeLeaf(m.x, v), make3nodeLeaf(y, r.x));
+  }
+  if (isNodeType(t, '3223')) {
+    let {x,y,l,m,r} = t;
+    if (v <= x) return make3Node(x, y, (v < l.x) ? make3nodeLeaf(v, l.x) : make3nodeLeaf(l.x, v), m, r);
+    if (v <= y) return make3Node(x, y, l, (v > m.x) ? make3nodeLeaf(m.x, v) : make3nodeLeaf(v, m.x), r);
+    if (v <= r.x) return make3Node(x, v, l, make3nodeLeaf(m.x, y), r);
+    if (v >= r.y) return make3Node(x, r.x, l, make3nodeLeaf(m.x, y), make3nodeLeaf(r.y, v));
+    return make3Node(x, r.x, l, make3nodeLeaf(m.x, y), make3nodeLeaf(v, r.y));
+  }
+  if (isNodeType(t, '3233')) {
+    let {x,y,l,m,r} = t;
+    if (v <= x) return make3Node(x, y, (v < l.x) ? make3nodeLeaf(v, l.x) : make3nodeLeaf(l.x, v), m, r);
+    if (v <= y) return make2Node(v, make3Node(x, make2nodeLeaf(l.x), make2nodeLeaf(m.x)), make3Node(y, make2nodeLeaf(m.y), r));
+    return make2Node(y, make3Node(x, make2nodeLeaf(l.x), m), make2Node(v, r, EmptyTree));
+  }
+      
 }
 
 const t1 = make2Node(5, make2nodeLeaf(2), make3nodeLeaf(7, 9));
 t1
 const t2 = insert(insert(insert(insert(insert(EmptyTree, 30), 70), 50), 10), 20)
 t2
-const t3 = insert(t2, 15);
+const t3 = insert(t2, 85);
 t3
-const t4 = insert(t3, 55);
-t4
+const t4 = insert(t3, 88);
+console.log({ t4 });
+const t5 = insert(t4, 68);
+console.log({ t5 });
+const t6 = insert(t5, 42);
+console.log({ t6 });
+/*
+
+*/
 
 
 
