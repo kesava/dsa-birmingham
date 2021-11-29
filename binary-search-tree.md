@@ -94,13 +94,13 @@ const removeSmallestNode = t => {
 const floor = (t, x) => {
   if (isEmpty(t)) return EmptyTree;
   let {v, l, r} = t;
-  console.log({v,l,r})
   switch(true) {
-    case (x === v): return x;
-    case (x < v): return floor(l, x);
-    case (x > v): 
+    case (v === x): return x;
+    case (v > x): return floor(l, x);
+    case (v < x): 
       let fl = floor(r, x);
-      return (x >= fl) ? fl : x
+      if (fl) return (x >= fl) ? fl : v;
+      return v;
   }
 }
 
@@ -112,36 +112,6 @@ const height = t => {
     return Math.max(height(l), height(r)) + 1;
   }
 } 
-
-const rotateRight = t => {
-  if ((isEmpty(t)) || (isEmpty(left(t)))) {
-    return t;
-  }
-  let {v, l, r: t3} = t;
-  let {v: v1, l: t1, r: t2} = l;
-  return MakeTree(v1, t1, MakeTree(v, t2, t3));
-}
-
-const rotateLeft = t => {
-  if ((isEmpty(t)) || (isEmpty(right(t)))) {
-    return t;
-  }
-  let {v, l : t1, r} = t;
-  let {v: v1, l: t2, r: t3} = r;
-  return MakeTree(v1, MakeTree(v, t1, t2), t3);
-}
-
-const rotate = t => {
-  if (isEmpty(t)) return t;
-  let {v, l, r} = t;
-  if ((height(l) - height(r)) >= 2) {
-    return rotateRight(t);
-  }
-  if ((height(r) - height(l)) >= 2) {
-    return rotateLeft(t);
-  }
-  return t;
-}
 
 const flatten = arr => {
   let output = [];
