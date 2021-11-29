@@ -38,9 +38,9 @@ const insert = (x, t) => {
   } else {
     let {v, l, r} = t;
     if (x < root(t)) {
-      return rotate(MakeTree(v, insert(x, l), r));
+      return MakeTree(v, insert(x, l), r);
     } else {
-      return rotate(MakeTree(v, l, insert(x, r)));
+      return MakeTree(v, l, insert(x, r));
     }
   }
 }
@@ -56,12 +56,13 @@ const del = (t, x) => {
       } else if (isEmpty(r)) {
         return l;
       } else {
+        console.log({ smallestNode: smallestNode(r) })
         return MakeTree(smallestNode(r), l, removeSmallestNode(r));
       }
     } else if (x < v) {
-      return rotate(MakeTree(v, del(l, x), r));
+      return MakeTree(v, del(l, x), r);
     } else {
-      return rotate(MakeTree(v, l, del(r, x)));
+      return MakeTree(v, l, del(r, x));
     }
   }
 }
@@ -86,7 +87,7 @@ const removeSmallestNode = t => {
   } else if (isLeaf(l)) {
     return MakeTree(v, EmptyTree, r);
   } else {
-    return removeSmallestNode(l);
+    return MakeTree(v, removeSmallestNode(l), r);
   }
 }
 
