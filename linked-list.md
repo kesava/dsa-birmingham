@@ -48,6 +48,10 @@ const isEmpty = input => {
   return false;
 }
 
+first(linkedList)
+rest(linkedList)
+isEmpty(EmptyList)
+
 const at = (list, i) => {
   let current = -1;
   while (!isEmpty(list)) {
@@ -115,12 +119,14 @@ console.log({ a1, a2 })
 const concat = (l1, l2) => {
   if (isEmpty(l2)) {
     return l1;
+  } else if (isEmpty(l1)) {
+    return l2;
   } else {
     return concat(insertAt(l1, -1, first(l2)), rest(l2));
   }
 }
 
-console.log({ concat: [...concat(MakeList(3, MakeList(4, MakeList(5, EmptyList))), MakeList(7, MakeList(8, EmptyList)))] });
+console.log({ concat: [...concat(MakeList(3, MakeList(4, MakeList(5, EmptyList))), MakeList(7, MakeList(8, EmptyList)))] }); // { concat: [ 3, 4, 5, 7, 8 ] }
 
 const sum = list => {
   if (isEmpty(list)) {
@@ -151,34 +157,57 @@ const prodTailRecur = list => {
   return prodHelper(1, list);
 };
 
-prod(MakeList(3, MakeList(4, MakeList(5, EmptyList)))) // 12
-prodTailRecur(MakeList(3, MakeList(4, MakeList(5, EmptyList)))) // 12
+prod(MakeList(3, MakeList(4, MakeList(5, EmptyList)))) // 60
+prodTailRecur(MakeList(3, MakeList(4, MakeList(5, EmptyList)))) // 60
 
-first(linkedList)
-rest(linkedList)
-isEmpty(EmptyList)
-
-```
-The output would be as follows
-```
-{ spreadableList: [ 10, 8, 5, 3 ] }
-{ i: 10 }
-{ i: 8 }
-{ i: 5 }
-{ i: 3 }
-10
-{
-  element: 8,
-  list: {
-    element: 5,
-    list: {
-      element: 3,
-      list: null,
-      [Symbol(Symbol.iterator)]: ƒ [Symbol.iterator]()
-    },
-    [Symbol(Symbol.iterator)]: ƒ [Symbol.iterator]()
-  },
-  [Symbol(Symbol.iterator)]: ƒ [Symbol.iterator]()
+const min = list => {
+  if (!isEmpty(rest(list))) {
+    return first(list) < min(rest(list)) ? first(list) : min(rest(list));
+  } else {
+    return first(list);
+  }
 }
-true
+
+min(MakeList(8, MakeList(4, MakeList(5, EmptyList)))) 
+
+const max = list => {
+  if (!isEmpty(rest(list))) {
+    return first(list) > min(rest(list)) ? first(list) : max(rest(list));
+  } else {
+    return first(list);
+  }
+}
+
+max(MakeList(8, MakeList(4, MakeList(5, EmptyList)))) 
+
+const map = (list, fn) => {
+  if (isEmpty(list)) {
+    return EmptyList;
+  } else {
+    return MakeList(fn.apply(null, [first(list)]), map(rest(list), fn));
+  }
+}
+
+[...map(MakeList(8, MakeList(4, MakeList(5, EmptyList))), x => x * x)]
+
+const forEach = (list, fn) => {
+  while(!isEmpty(list)) {
+    fn.apply(null, [list.element]);
+    list = list.list;
+  }
+}
+
+forEach(MakeList(8, MakeList(4, MakeList(5, EmptyList))), x => console.log(x * x))
+
+// TODO: need to revisit this, The output looks okay, but the iterator fails
+const reverse = list => {
+  const reverseHelper = (l, acc) => {
+    if (isEmpty(l)) {
+      return acc;
+    } else {
+      return reverseHelper(rest(list), concat(MakeList(first(list), EmptyList), acc));
+    }
+  }
+  return reverseHelper(list, EmptyList);
+}
 ```
