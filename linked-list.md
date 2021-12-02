@@ -1,6 +1,8 @@
-## Linked List
+# Linked List
 This is an implementation of a linked list using objects and iterors.
 ```javascript
+
+## Creation
 const EmptyList = null;
 const MakeList = (element, list) => ({
   element,
@@ -33,6 +35,7 @@ for(let i of linkedList) {
   console.log({ i })
 }
 
+## `first`, `rest` and `isEmpty`
 const first = input => {
   let { element, list} = input;
   return element;
@@ -51,6 +54,8 @@ const isEmpty = input => {
 first(linkedList)
 rest(linkedList)
 isEmpty(EmptyList)
+
+## insertion and deletion
 
 const at = (list, i) => {
   let current = -1;
@@ -116,6 +121,8 @@ const a1 = [...insertAt(linkedList, 3, 22)] // [ 10, 8, 5, 22, 3 ]
 const a2 = [...deleteAt(linkedList, 2)]
 console.log({ a1, a2 })
 
+## concatenation
+
 const concat = (l1, l2) => {
   if (isEmpty(l2)) {
     return l1;
@@ -128,6 +135,7 @@ const concat = (l1, l2) => {
 
 console.log({ concat: [...concat(MakeList(3, MakeList(4, MakeList(5, EmptyList))), MakeList(7, MakeList(8, EmptyList)))] }); // { concat: [ 3, 4, 5, 7, 8 ] }
 
+## sum and product
 const sum = list => {
   if (isEmpty(list)) {
     return 0;
@@ -160,6 +168,7 @@ const prodTailRecur = list => {
 prod(MakeList(3, MakeList(4, MakeList(5, EmptyList)))) // 60
 prodTailRecur(MakeList(3, MakeList(4, MakeList(5, EmptyList)))) // 60
 
+## min and max
 const min = list => {
   if (!isEmpty(rest(list))) {
     return first(list) < min(rest(list)) ? first(list) : min(rest(list));
@@ -180,6 +189,7 @@ const max = list => {
 
 max(MakeList(8, MakeList(4, MakeList(5, EmptyList)))) 
 
+## map, forEach
 const map = (list, fn) => {
   if (isEmpty(list)) {
     return EmptyList;
@@ -199,6 +209,8 @@ const forEach = (list, fn) => {
 
 forEach(MakeList(8, MakeList(4, MakeList(5, EmptyList))), x => console.log(x * x))
 
+## reverse
+
 // TODO: need to revisit this, The output looks okay, but the iterator fails
 const reverse = list => {
   const reverseHelper = (l, acc) => {
@@ -210,6 +222,8 @@ const reverse = list => {
   }
   return reverseHelper(list, EmptyList);
 }
+
+## `take` and `drop`
 
 // TODO: need to revisit this, The output looks okay, but the iterator fails
 const take = (list, n) => {
@@ -250,6 +264,8 @@ const drop = (list, n) => {
 
 [...drop(MakeList(8, MakeList(4, MakeList(5, EmptyList))), 1)] // [4, 5]
 
+### `sublist` and `slice`
+
 const sublist = (from, count, list) => take(drop(list, from), count);
 
 const l1 = MakeList(3, MakeList(6, MakeList(2, MakeList(8, MakeList(4, MakeList(5, EmptyList))))));
@@ -257,6 +273,8 @@ sublist(1, 4, l1) // 6, 2, 8, 4
 
 const slice = (from, to, list) => drop(take(list, to), from)
 slice(1, 5, l1) // 6, 2, 8, 4
+
+## `takeWhile`
 
 const takeWhile = (list, fn) => {
   const helper = (l, acc) => {
