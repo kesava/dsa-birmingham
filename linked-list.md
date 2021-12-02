@@ -210,4 +210,68 @@ const reverse = list => {
   }
   return reverseHelper(list, EmptyList);
 }
+
+// TODO: need to revisit this, The output looks okay, but the iterator fails
+const take = (list, n) => {
+  let current = 0;
+  const takeHelper = (l, acc) => {
+    if (isEmpty(l)) {
+      return acc;
+    } else {
+      if (current === n) {
+        return acc;
+      } else {
+        current++;
+        return takeHelper(rest(l), concat(acc, MakeList(first(l), EmptyList)));
+      }
+    }
+  }
+  return (n > 0) ? takeHelper(list, EmptyList) : EmptyList;
+}
+
+[...take(MakeList(8, MakeList(4, MakeList(5, EmptyList))), 2)]
+
+const drop = (list, n) => {
+  let current = 0;
+  const dropHelper = l => {
+    if (isEmpty(l)) {
+      return EmptyList;
+    } else {
+      if (current < n) {
+        current++;
+        return dropHelper(rest(l));
+      } else {
+        return l;
+      }
+    }
+  }
+  return (n == 0) ? list : dropHelper(list);
+}
+
+[...drop(MakeList(8, MakeList(4, MakeList(5, EmptyList))), 1)] // [4, 5]
+
+const sublist = (from, count, list) => take(drop(list, from), count);
+
+const l1 = MakeList(3, MakeList(6, MakeList(2, MakeList(8, MakeList(4, MakeList(5, EmptyList))))));
+sublist(1, 4, l1) // 6, 2, 8, 4
+
+const slice = (from, to, list) => drop(take(list, to), from)
+slice(1, 5, l1) // 6, 2, 8, 4
+
+const takeWhile = (list, fn) => {
+  const helper = (l, acc) => {
+    if (isEmpty(l)) {
+      return acc;
+    } else {
+      if (!fn.apply(null, [first(l)])) {
+        return acc;
+      } else {
+        return helper(rest(l), MakeList(first(l), acc));
+      }
+    }
+  }
+  return helper(list, EmptyList);
+}
+
+takeWhile(l1, x => (x > 2)) // 6, 3
 ```
