@@ -300,4 +300,37 @@ const takeWhile = (list, fn) => {
 }
 
 takeWhile(l1, x => (x > 2)) // 6, 3
+[...takeWhile(l1, x => (x > 2))] // [6, 3]
+```
+
+## `groupBy`
+```javascript
+const group = (list, relFn) => {
+  const helper = (l, acc) => {
+    let g = [];
+    if (isEmpty(l)) {
+      return acc;
+    }
+    let x = first(l);
+    if (isEmpty(rest(l))) {
+      g.push(x);
+      acc.push(g);
+      return acc;
+    }
+    let y = first(rest(l));
+    if (relFn.apply(null, [x, y])) {
+      g.push(y);
+    } else {
+      g = [];
+      g.push(y);
+      acc.push(g);
+    }
+    return helper(rest(l), acc);
+  }
+  return helper(list, []);
+};
+
+const l2 = MakeList(3, MakeList(6, MakeList(2, MakeList(8, MakeList(4, MakeList(5, EmptyList))))));
+
+group(l2, (x, y) => (((x % 2) == 0) && (y % 2) == 0))
 ```
