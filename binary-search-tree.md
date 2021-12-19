@@ -205,4 +205,33 @@ const binsort = arr => inorder(buildTree(arr));
 binsort([...randomNumbers(100, 10000)])
 // [ 101, 303, 389, 437, 813, 908, 909, 958, 1047, 1096, 1293, 1306, 1400, 1535, 2013, 2049, 2091, 2187, 2220, 2433, 2462, 2495, 2567, 2573, 2587, 2594, 2780, 2898, 3026, 3060, 3082, 3425, 3529, 3774, 3805, 4169, 4209, 4391, 4891, 4939, 5475, 5623, 5635, 5653, 5670, 5972, 5991, 5993, 6139, 6538, 6549, 6551, 6796, 6810, 6907, 7008, 7019, 7048, 7116, 7144, 7219, 7328, 7353, 7362, 7397, 7428, 7542, 7594, 7609, 7640, 7654, 7713, 7864, 7885, 7897, 8025, 8034, 8215, 8221, 8569, 8776, 8809, 8863, 8867, 9031, 9081, 9087, 9155, 9165, 9253, 9318, 9394, 9603, 9615, 9645, 9743, 9753, 9834, 9915, 9968 ]
 
+const rotateLeft = t => {
+  if (isEmpty(t)) {
+    return t;
+  } else {
+    let {v: y, l: left, r: c} = t;
+    if (nonTrivialTree(left)) {
+      let {v: x, l: a, r: b} = left;
+      return MakeTree(x, a, MakeTree(y, b, c));
+    }
+    return t;
+  }
+}
+
+const rotateRight = t => {
+  if (isEmpty(t)) {
+    return t;
+  } else {
+    let {v: x, l: a, r: right} = t;
+    if (nonTrivialTree(right)) {
+      let {v: y, l: b, r: c} = right;
+      return MakeTree(y, MakeTree(x, a, b), c);
+    }
+    return t;
+  }
+}
+
+const t1 = MakeTree('y', MakeTree('x', Leaf('a'), Leaf('b')), Leaf('c'));
+const t2 = rotateRight(rotateLeft(t1));
+
 ```
