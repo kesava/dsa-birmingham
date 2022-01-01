@@ -28,13 +28,6 @@ Trie.prototype.find = function(word, node = this) {
   return (node.isWord);
 }
 
-Trie.prototype.delete = function(word, node = this) {
-  for(const letter of word) {
-    if (node.children[letter]) {
-      
-    }
-  }
-}
 
 const t2 = new Trie();
 t2.add('బిరుదు').add('బిర్రు')
