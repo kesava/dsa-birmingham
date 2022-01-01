@@ -4,3 +4,4 @@
  * [Binary Search Tree](binary-search-tree.md)
  * [AVL trees](avl.md)
  * [2-3 trees](2-3-tree.md)
+ * [Tries](trie.md)
